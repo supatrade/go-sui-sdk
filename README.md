@@ -10,7 +10,7 @@ We welcome other developers to participate in the development and testing of sui
 ## Install
 
 ```sh
-go get github.com/supatrade/go-sui-sdk-sdk
+go get github.com/supatrade/go-sui-sdk
 ```
 
 
