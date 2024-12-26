@@ -53,10 +53,10 @@ func (p *ProgrammableTransactionBuilder) ForceSeparatePure(value any) (Argument,
 	if err != nil {
 		return Argument{}, err
 	}
-	return p.pureBytes(pureData, true), nil
+	return p.PureBytes(pureData, true), nil
 }
 
-func (p *ProgrammableTransactionBuilder) pureBytes(bytes []byte, forceSeparate bool) Argument {
+func (p *ProgrammableTransactionBuilder) PureBytes(bytes []byte, forceSeparate bool) Argument {
 	var arg BuilderArg
 	if forceSeparate {
 		length := uint(len(p.Inputs))
@@ -68,7 +68,7 @@ func (p *ProgrammableTransactionBuilder) pureBytes(bytes []byte, forceSeparate b
 			Pure: &bytes,
 		}
 	}
-	i := p.insertFull(
+	i := p.InsertFull(
 		arg, CallArg{
 			Pure: &bytes,
 		},
@@ -76,10 +76,9 @@ func (p *ProgrammableTransactionBuilder) pureBytes(bytes []byte, forceSeparate b
 	return Argument{
 		Input: &i,
 	}
-
 }
 
-func (p *ProgrammableTransactionBuilder) insertFull(key BuilderArg, value CallArg) uint16 {
+func (p *ProgrammableTransactionBuilder) InsertFull(key BuilderArg, value CallArg) uint16 {
 	_, ok := p.Inputs[key.String()]
 	p.Inputs[key.String()] = value
 	if !ok {
@@ -99,15 +98,13 @@ func (p *ProgrammableTransactionBuilder) Pure(value any) (Argument, error) {
 	if err != nil {
 		return Argument{}, err
 	}
-	return p.pureBytes(pureData, false), nil
+	return p.PureBytes(pureData, false), nil
 }
 
 func (p *ProgrammableTransactionBuilder) Obj(objArg ObjectArg) (Argument, error) {
 	id := objArg.id()
 	var oj ObjectArg
-	if oldValue, ok := p.Inputs[BuilderArg{
-		Object: &id,
-	}.String()]; ok {
+	if oldValue, ok := p.Inputs[BuilderArg{Object: &id}.String()]; ok {
 		var oldObjArg ObjectArg
 		switch {
 		case oldValue.Pure != nil:
@@ -117,7 +114,7 @@ func (p *ProgrammableTransactionBuilder) Obj(objArg ObjectArg) (Argument, error)
 		}
 
 		switch {
-		case oldObjArg.SharedObject.InitialSharedVersion == objArg.SharedObject.InitialSharedVersion:
+		case oldObjArg.SharedObject != nil && oldObjArg.SharedObject.InitialSharedVersion == objArg.SharedObject.InitialSharedVersion:
 			if oldObjArg.id() != objArg.id() {
 				return Argument{}, errors.New("invariant violation! object has id does not match call arg")
 			}
@@ -132,6 +129,13 @@ func (p *ProgrammableTransactionBuilder) Obj(objArg ObjectArg) (Argument, error)
 					Mutable:              oldObjArg.SharedObject.Mutable || objArg.SharedObject.Mutable,
 				},
 			}
+		case oldObjArg.ImmOrOwnedObject != nil && oldObjArg.ImmOrOwnedObject.ObjectId.String() == objArg.ImmOrOwnedObject.ObjectId.String():
+			if oldObjArg.id() != objArg.id() {
+				return Argument{}, errors.New("invariant violation! object has id does not match call arg")
+			}
+			oj = ObjectArg{
+				ImmOrOwnedObject: objArg.ImmOrOwnedObject,
+			}
 		default:
 			if oldObjArg != objArg {
 				return Argument{}, fmt.Errorf(
@@ -144,7 +148,7 @@ func (p *ProgrammableTransactionBuilder) Obj(objArg ObjectArg) (Argument, error)
 	} else {
 		oj = objArg
 	}
-	i := p.insertFull(
+	i := p.InsertFull(
 		BuilderArg{
 			Object: &id,
 		}, CallArg{
@@ -159,7 +163,7 @@ func (p *ProgrammableTransactionBuilder) Obj(objArg ObjectArg) (Argument, error)
 func (p *ProgrammableTransactionBuilder) Input(callArg CallArg) (Argument, error) {
 	switch {
 	case callArg.Pure != nil:
-		return p.pureBytes(*callArg.Pure, false), nil
+		return p.PureBytes(*callArg.Pure, false), nil
 	case callArg.Object != nil:
 		return p.Obj(*callArg.Object)
 	default:
