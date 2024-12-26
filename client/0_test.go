@@ -6,17 +6,17 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/coming-chat/go-sui/v2/sui_types"
-	"github.com/coming-chat/go-sui/v2/types"
 	"github.com/shopspring/decimal"
+	"github.com/supatrade/go-sui-sdk/sui_types"
+	"github.com/supatrade/go-sui-sdk/types"
 
-	"github.com/coming-chat/go-sui/v2/account"
 	"github.com/stretchr/testify/require"
+	"github.com/supatrade/go-sui-sdk/account"
 )
 
 var (
-	M1Mnemonic = os.Getenv("WalletSdkTestM1")
-	Address, _ = sui_types.NewAddressFromHex("0x7e875ea78ee09f08d72e2676cf84e0f1c8ac61d94fa339cc8e37cace85bebc6e")
+	M1Mnemonic = os.Getenv("SUI_WALLET_MNEMONIC")
+	Address, _ = sui_types.NewAddressFromHex(os.Getenv("SUI_WALLET_ADDRESS"))
 )
 
 func MainnetClient(t *testing.T) *Client {

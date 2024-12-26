@@ -1,6 +1,6 @@
 package sui_types
 
-import "github.com/coming-chat/go-sui/v2/lib"
+import "github.com/supatrade/go-sui-sdk/lib"
 
 type Digest = lib.Base58
 

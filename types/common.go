@@ -2,9 +2,10 @@ package types
 
 import (
 	"fmt"
-	"github.com/coming-chat/go-sui/v2/sui_types"
-	"github.com/shopspring/decimal"
 	"math/big"
+
+	"github.com/shopspring/decimal"
+	"github.com/supatrade/go-sui-sdk/sui_types"
 )
 
 type SuiBigInt = decimal.Decimal

@@ -3,11 +3,11 @@ package client
 import (
 	"context"
 
-	"github.com/coming-chat/go-sui/v2/lib"
-	"github.com/coming-chat/go-sui/v2/sui_types"
-	"github.com/coming-chat/go-sui/v2/sui_types/sui_system_state"
-	"github.com/coming-chat/go-sui/v2/types"
 	"github.com/fardream/go-bcs/bcs"
+	"github.com/supatrade/go-sui-sdk/lib"
+	"github.com/supatrade/go-sui-sdk/sui_types"
+	"github.com/supatrade/go-sui-sdk/sui_types/sui_system_state"
+	"github.com/supatrade/go-sui-sdk/types"
 )
 
 func (c *Client) GetLatestSuiSystemState(ctx context.Context) (*types.SuiSystemStateSummary, error) {

@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/coming-chat/go-sui/v2/account"
-	"github.com/coming-chat/go-sui/v2/types"
 	"github.com/stretchr/testify/require"
+	"github.com/supatrade/go-sui-sdk/account"
+	"github.com/supatrade/go-sui-sdk/types"
 )
 
 func TestAccountSignAndSend(t *testing.T) {

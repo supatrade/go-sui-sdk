@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/coming-chat/go-sui/v2/sui_types"
 	"github.com/stretchr/testify/require"
+	"github.com/supatrade/go-sui-sdk/sui_types"
 )
 
 func AddressFromHex(t *testing.T, hex string) *suiAddress {

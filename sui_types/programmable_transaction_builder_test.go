@@ -1,10 +1,11 @@
 package sui_types
 
 import (
-	"github.com/coming-chat/go-sui/v2/move_types"
+	"testing"
+
 	"github.com/fardream/go-bcs/bcs"
 	"github.com/stretchr/testify/require"
-	"testing"
+	"github.com/supatrade/go-sui-sdk/move_types"
 )
 
 func TestTransferSui(t *testing.T) {

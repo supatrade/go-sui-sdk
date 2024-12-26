@@ -11,7 +11,8 @@ jobs:
   TestAndBuild:
     runs-on: ubuntu-latest
     env:
-      WalletSdkTestM1: ${{ secrets.WALLETSDKTESTM1 }}
+      SUI_WALLET_ADDRESS: ${{ secrets.SUI_WALLET_ADDRESS }}
+      SUI_WALLET_MNEMONIC: ${{ secrets.SUI_WALLET_MNEMONIC }}
     steps:
     - uses: actions/checkout@v3
 
